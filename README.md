@@ -79,6 +79,11 @@ If you want even more control over the confirmation, these methods can be overri
 - `render_change_confirmation(self, request: HttpRequest, context: dict) -> TemplateResponse`
 - `render_action_confirmation(self, request: HttpRequest, context: dict) -> TemplateResponse`
 
+**Custom messages without changing template:** 
+- `get_confirmation_messages(self, request, obj=None) -> list[tuple[Literal["debug", "info", "success", "warning", "error"], str]]`
+
+Add a list of messages to the confirmation page - requires the `django.contrib.messages` app for CSS support.   
+
 ## Usage
 
 **Confirm Change:**

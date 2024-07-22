@@ -1,5 +1,5 @@
 import functools
-from typing import Dict
+from typing import Dict, Literal
 from django.contrib.admin.exceptions import DisallowedModelAdminToField
 from django.contrib.admin.utils import flatten_fieldsets, unquote
 from django.core.cache import cache
@@ -59,13 +59,20 @@ class AdminConfirmMixin:
         admin_fields = set(flatten_fieldsets(self.get_fieldsets(request, obj)))
         return list(model_fields & admin_fields)
 
+    def get_confirmation_messages(self, request, changed_data: dict, obj=None) -> list[tuple[Literal["debug", "info", "success", "warning", "error"], str]]:
+        """
+        Hook for specifying confirmation messages.
+        Requires django.contrib.messages for message type CSS support.
+        """
+        return []
+
     def render_change_confirmation(self, request, context):
         opts = self.model._meta
         app_label = opts.app_label
 
         request.current_app = self.admin_site.name
         context.update(
-            media=self.media,
+            media=self.media
         )
 
         return TemplateResponse(
@@ -437,6 +444,7 @@ class AdminConfirmMixin:
             "form": form,
             "cleared_fields": cleared_fields,
             "formsets": formsets,
+            "confirmation_messages": self.get_confirmation_messages(request, changed_data, obj),
             **(extra_context or {}),
         }
         return self.render_change_confirmation(request, context)
