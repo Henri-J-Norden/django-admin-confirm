@@ -323,7 +323,7 @@ class AdminConfirmMixin:
         self._file_cache.delete_all()
         cache.delete_many(CACHE_KEYS.values())
 
-        return super()._changeform_view(request, object_id, form_url, extra_context)
+        return super().changeform_view(request, object_id, form_url, extra_context)
 
     def _get_cleared_fields(self, request):
         """
@@ -392,7 +392,7 @@ class AdminConfirmMixin:
             extra_context = self._add_confirmation_options_to_extra_context(
                 extra_context
             )
-            return super()._changeform_view(request, object_id, form_url, extra_context)
+            return super().changeform_view(request, object_id, form_url, extra_context)
 
         add_or_new = add or SAVE_AS_NEW in request.POST
         # Get changed data to show on confirmation
@@ -404,7 +404,7 @@ class AdminConfirmMixin:
         if not bool(changed_confirmation_fields):
             log("No change detected")
             # No confirmation required for changed fields, continue to save
-            return super()._changeform_view(request, object_id, form_url, extra_context)
+            return super().changeform_view(request, object_id, form_url, extra_context)
 
         # Parse the original save action from request
         save_action = None
