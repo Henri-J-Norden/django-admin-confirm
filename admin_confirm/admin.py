@@ -311,7 +311,7 @@ class AdminConfirmMixin:
         self._file_cache.delete_all()
         cache.delete_many(CACHE_KEYS.values())
 
-        return super()._changeform_view(request, object_id, form_url, extra_context)
+        return super().changeform_view(request, object_id, form_url, extra_context)
 
     def _get_cleared_fields(self, request):
         """
